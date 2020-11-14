@@ -5,7 +5,7 @@ const colors = [
     ['black', '#12002F', '#2A005E', '#41008B', '#6800E7'],
     ['black', '#002A3A', '#025D84', '#0076A9', '#05B9EC']
 ];
-const pixelSize = 100;
+const pixelSize = 85;
 let currentColor = 0;
 let pixels;
 let overlay;
@@ -108,7 +108,7 @@ function generateOverlay(){
     }
     overlay = new Group();
 
-    let lineRect = new Path.Rectangle([200, 200], [pixelSize*6, pixelSize*6]);
+    let lineRect = new Path.Rectangle([203, 203], [pixelSize*7, pixelSize*7]);
     lineRect.strokeWidth = 6;
     lineRect.strokeColor = 'white';
     overlay.addChild(lineRect);
@@ -148,8 +148,8 @@ function generatePixels(){
     let simplex = new SimplexNoise();
     let values = [];
 
-    for(let x = 0; x<6; x++){
-        for(let y = 0; y<6; y++){
+    for(let x = 0; x<7; x++){
+        for(let y = 0; y<7; y++){
             values.push(simplex.noise2D(x/10, y/10));
         }
     }
@@ -162,9 +162,9 @@ function generatePixels(){
     strechedValues = strechedValues.map( val => val<0 ? 0 : Math.ceil(val / 0.25) )
 
     strechedValues.forEach(function(val, idx){
-        let x = idx % 6;
-        let y = Math.floor(idx / 6);
-        let rect = new Path.Rectangle([pixelSize*x+200, pixelSize*y+200], [pixelSize, pixelSize]);
+        let x = idx % 7;
+        let y = Math.floor(idx / 7);
+        let rect = new Path.Rectangle([pixelSize*x+203, pixelSize*y+203], [pixelSize, pixelSize]);
         rect.fillColor = colors[currentColor][val];
         rect.applyMatrix= false;
         rect.scaling = 1.01;
@@ -172,11 +172,11 @@ function generatePixels(){
         rect.strokeWidth = 3;
         rect.strokeCap = 'round';
         rect.dashArray = [4, 10];
-        rect.tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 200) + val*200});
+        rect.tweenFrom({ scaling: 0.0001 }, { duration:  _.random(0, 203) + val*203});
         rect.onClick = function(event) {
             event.stop();
             this.colStep = (this.colStep+1) % 5;
-            this.tweenTo({ fillColor: colors[currentColor][this.colStep] }, { duration:  _.random(0, 200) });
+            this.tweenTo({ fillColor: colors[currentColor][this.colStep] }, { duration:  _.random(0, 203) });
         }
         rect.onMouseEnter = function(event){
             if(!dragging){
